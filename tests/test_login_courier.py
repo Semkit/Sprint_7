@@ -11,7 +11,6 @@ class TestLogin:
     def test_courier_login(self):
         with allure.step("Создание нового курьера"):
             login_pass = register_new_courier_and_return_login_password()
-            assert login_pass, "Registration failed, login_pass is empty"
             login, password, _ = login_pass
 
         with allure.step("Авторизация созданного курьера"):
@@ -20,8 +19,8 @@ class TestLogin:
                 "password": password
             }
             response = requests.post(f'{URL}/courier/login', json=payload)
-            assert response.status_code == 200, f"Expected 200, but got {response.status_code}"
-            assert "id" in response.json(), f"Expected 'id' in response, but got {response.json()}"
+            assert response.status_code == 200, f"Ожидался статус 200, но получен {response.status_code}"
+            assert "id" in response.json(), f"Ожидался 'id' в ответе, но получен {response.json()}"
 
     @allure.title("Проверка обязательных полей при авторизации курьера")
     def test_courier_login_missing_fields(self):
@@ -36,13 +35,12 @@ class TestLogin:
                 payload = {k: v for k, v in payload.items() if v is not None}
                 response = requests.post(f'{URL}/courier/login', json=payload)
                 assert response.status_code == 400, f"Expected 400, but got {response.status_code}"
-                assert response.json()["message"] == "Недостаточно данных для входа", f"Expected 'Недостаточно данных для входа', but got {response.json()['message']}"
+                assert response.json()["message"] == "Недостаточно данных для входа", f"Ожидалось сообщение 'Недостаточно данных для входа', но получено {response.json()['message']}"
 
     @allure.title("Проверка авторизации с неверным логином или паролем")
     def test_courier_login_invalid_credentials(self):
         with allure.step("Создание нового курьера"):
             login_pass = register_new_courier_and_return_login_password()
-            assert login_pass, "Registration failed, login_pass is empty"
             login, password, _ = login_pass
 
         with allure.step("Авторизация с неверным логином"):
@@ -51,8 +49,8 @@ class TestLogin:
                 "password": password
             }
             response = requests.post(f'{URL}/courier/login', json=payload)
-            assert response.status_code == 404, f"Expected 404, but got {response.status_code}"
-            assert response.json()["message"] == "Учетная запись не найдена", f"Expected 'Учетная запись не найдена', but got {response.json()['message']}"
+            assert response.status_code == 404, f"Ожидался статус 404, но получен {response.status_code}"
+            assert response.json()["message"] == "Учетная запись не найдена", f"Ожидалось сообщение 'Учетная запись не найдена', но получено {response.json()['message']}"
 
         with allure.step("Авторизация с неверным паролем"):
             payload = {
@@ -72,7 +70,7 @@ class TestLogin:
             }
             response = requests.post(f'{URL}/courier/login', json=payload)
 
-            assert response.status_code == 404, f"Expected 404, but got {response.status_code}"
-            assert response.json()["message"] == "Учетная запись не найдена", f"Expected 'Учетная запись не найдена', but got {response.json()['message']}"
+            assert response.status_code == 404, f"Ожидался статус 404, но получен {response.status_code}"
+            assert response.json()["message"] == "Учетная запись не найдена", f"Ожидалось сообщение 'Учетная запись не найдена', но получено {response.json()['message']}"
 
 

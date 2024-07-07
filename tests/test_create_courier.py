@@ -48,4 +48,4 @@ class TestCouriers:
                 payload = {k: v for k, v in base_payload.items() if k != field}
                 response = requests.post(f'{URL}/courier', json=payload)
                 assert response.status_code == 400, f"Ожидался статус 400, но получен {response.status_code}"
-                assert response.json()["message"] == "Недостаточно данных для создания учетной записи", f"Expected 'Недостаточно данных для создания учетной записи', but got {response.json()['message']}"
+                assert response.json()["message"] == "Недостаточно данных для создания учетной записи", f"Ожидалось сообщение 'Недостаточно данных для создания учетной записи', но получено {response.json()['message']}"

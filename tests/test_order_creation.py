@@ -41,6 +41,6 @@ class TestOrder:
 
         with allure.step(f"Создание заказа с цветами: {colors}"):
             response = requests.post(f'{URL}/orders', json=order)
-            assert response.status_code == 201, f"Expected 201, but got {response.status_code}"
+            assert response.status_code == 201, f"Ожидался статус 201, но получен {response.status_code}"
             response_json = response.json()
-            assert "track" in response_json, f"Expected 'track' in response, but got {response_json}"
+            assert "track" in response_json, f"Ожидалось 'track' в ответе, но получено {response_json}"
