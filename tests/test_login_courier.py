@@ -34,7 +34,7 @@ class TestLogin:
                 }
                 payload = {k: v for k, v in payload.items() if v is not None}
                 response = requests.post(f'{URL}/courier/login', json=payload)
-                assert response.status_code == 400, f"Expected 400, but got {response.status_code}"
+                assert response.status_code == 400, f"Ожидался статус 400, но получен {response.status_code}"
                 assert response.json()["message"] == "Недостаточно данных для входа", f"Ожидалось сообщение 'Недостаточно данных для входа', но получено {response.json()['message']}"
 
     @allure.title("Проверка авторизации с неверным логином или паролем")
@@ -58,8 +58,8 @@ class TestLogin:
                 "password": generate_random_string(10)
             }
             response = requests.post(f'{URL}/courier/login', json=payload)
-            assert response.status_code == 404, f"Expected 404, but got {response.status_code}"
-            assert response.json()["message"] == "Учетная запись не найдена", f"Expected 'Учетная запись не найдена', but got {response.json()['message']}"
+            assert response.status_code == 404, f"Ожидался статус 404, но получен {response.status_code}"
+            assert response.json()["message"] == "Учетная запись не найдена", f"Ожидалось сообщение 'Учетная запись не найдена', но получено {response.json()['message']}"
 
     @allure.title("Проверка авторизации несуществующего пользователя")
     def test_courier_login_nonexistent_user(self):
